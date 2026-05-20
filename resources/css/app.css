@@ -1,0 +1,913 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-khmer: 'Noto Sans Khmer', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* RUPP-style site header */
+.studio-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    overflow: hidden;
+    background:
+        linear-gradient(180deg, rgb(0 74 42 / 0.35) 0%, transparent 42%),
+        linear-gradient(90deg, rgb(0 42 24) 0%, rgb(0 58 33) 12%, rgb(0 68 38) 50%, rgb(0 58 33) 88%, rgb(0 42 24) 100%);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 4px 24px rgb(0 0 0 / 0.22);
+}
+
+.studio-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        105deg,
+        transparent,
+        transparent 18px,
+        rgb(255 255 255 / 0.018) 18px,
+        rgb(255 255 255 / 0.018) 19px
+    );
+    pointer-events: none;
+}
+
+.studio-header__inner {
+    position: relative;
+    z-index: 1;
+}
+
+.studio-header__brand {
+    color: inherit;
+    text-decoration: none;
+}
+
+.studio-header__brand:hover .studio-header__title {
+    color: #e8c547;
+}
+
+.studio-header__logo img {
+    filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.35));
+}
+
+.studio-header__social {
+    display: inline-flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    color: rgb(255 255 255 / 0.92);
+    background: rgb(0 0 0 / 0.22);
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.studio-header__social:hover {
+    background: rgb(255 255 255 / 0.14);
+    color: #fff;
+}
+
+.studio-header__divider {
+    background: rgb(255 255 255 / 0.28);
+}
+
+.studio-header__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 9999px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: rgb(0 0 0 / 0.28);
+    padding: 0.4rem 0.85rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: rgb(255 255 255 / 0.95);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.studio-header__pill:hover {
+    background: rgb(255 255 255 / 0.12);
+    border-color: rgb(255 255 255 / 0.28);
+}
+
+.studio-header__pill--email {
+    background: rgb(0 90 52 / 0.55);
+    border-color: rgb(255 255 255 / 0.18);
+}
+
+.studio-header__pill--journal {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Dashboard stat cards: themed borders + gentle border-color pulse */
+.studio-stat-card {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.studio-stat-value {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Product detail: image_url full card — fixed width & height */
+.studio-detail-hero-image {
+    width: 100%;
+    height: 14rem;
+    min-height: 14rem;
+    background: transparent;
+}
+
+.studio-detail-hero-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: 14rem;
+    padding: 0.625rem 0.75rem;
+    background: radial-gradient(
+        ellipse 100% 90% at 50% 35%,
+        rgb(248 250 252) 0%,
+        rgb(241 245 249) 55%,
+        rgb(236 239 244) 100%
+    );
+}
+
+.studio-detail-hero-frame {
+    display: grid;
+    place-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 11.75rem;
+    min-height: 11.75rem;
+    max-height: 11.75rem;
+    margin-inline: auto;
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem;
+    background: rgb(255 255 255);
+    box-shadow:
+        0 0 0 1px rgb(228 228 231 / 0.9),
+        0 10px 32px -12px rgb(15 23 42 / 0.14);
+}
+
+.studio-detail-hero-img,
+.studio-detail-hero-fallback {
+    grid-area: 1 / 1;
+    width: auto;
+    height: auto;
+    max-width: calc(100% - 0.5rem);
+    max-height: calc(11.75rem - 1rem);
+}
+
+.studio-detail-hero-img {
+    display: block;
+    object-fit: contain;
+    object-position: center;
+}
+
+.studio-detail-hero-img--interactive {
+    cursor: zoom-in;
+}
+
+.studio-detail-hero-img--interactive:focus-visible {
+    outline: 2px solid rgb(59 130 246);
+    outline-offset: 3px;
+    border-radius: 0.375rem;
+}
+
+/* Full-size image preview (click product image in detail) */
+.studio-image-lightbox__img {
+    display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .studio-image-lightbox:not(.hidden) .studio-image-lightbox__panel {
+        animation: studio-image-lightbox-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
+
+@keyframes studio-image-lightbox-in {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.studio-detail-hero-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+}
+
+@media (min-width: 640px) {
+    .studio-detail-hero-image {
+        height: 15.5rem;
+        min-height: 15.5rem;
+    }
+
+    .studio-detail-hero-stage {
+        min-height: 15.5rem;
+        padding: 0.75rem 1rem;
+    }
+
+    .studio-detail-hero-frame {
+        height: 13.25rem;
+        min-height: 13.25rem;
+        max-height: 13.25rem;
+        padding: 0.625rem 1rem;
+    }
+
+    .studio-detail-hero-img,
+    .studio-detail-hero-fallback {
+        max-height: calc(13.25rem - 1.25rem);
+    }
+}
+
+.studio-detail-hero-fallback.hidden,
+.studio-detail-hero-img.hidden {
+    display: none !important;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .studio-stat-card--total {
+        animation: studio-stat-border-total 7s ease-in-out infinite;
+    }
+
+    .studio-stat-card--active {
+        animation: studio-stat-border-active 5.5s ease-in-out infinite;
+    }
+
+    .studio-stat-card--stock {
+        animation: studio-stat-border-stock 6.5s ease-in-out infinite;
+    }
+
+    .studio-stat-card--avg {
+        animation: studio-stat-border-avg 6s ease-in-out infinite;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .studio-stat-card--total {
+        border-color: rgb(212 212 216);
+    }
+
+    .studio-stat-card--active {
+        border-color: rgb(167 243 208);
+    }
+
+    .studio-stat-card--stock {
+        border-color: rgb(199 210 254);
+    }
+
+    .studio-stat-card--avg {
+        border-color: rgb(233 213 255);
+    }
+}
+
+@keyframes studio-stat-border-total {
+    0%,
+    100% {
+        border-color: rgb(212 212 216);
+    }
+    50% {
+        border-color: rgb(163 163 171);
+    }
+}
+
+@keyframes studio-stat-border-active {
+    0%,
+    100% {
+        border-color: rgb(167 243 208);
+    }
+    50% {
+        border-color: rgb(52 211 153);
+    }
+}
+
+@keyframes studio-stat-border-stock {
+    0%,
+    100% {
+        border-color: rgb(199 210 254);
+    }
+    50% {
+        border-color: rgb(129 140 248);
+    }
+}
+
+@keyframes studio-stat-border-avg {
+    0%,
+    100% {
+        border-color: rgb(233 213 255);
+    }
+    50% {
+        border-color: rgb(192 132 252);
+    }
+}
+
+/* Status select: closed control + option rows (option rules apply mainly in Firefox; Chrome uses OS menu) */
+.studio-field-status-select {
+    accent-color: rgb(37 99 235);
+    color-scheme: light;
+}
+
+.studio-field-status-select option {
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    padding: 0.5rem 0.75rem;
+    background-color: #fff;
+    color: #171717;
+}
+
+.studio-field-status-select option:checked {
+    font-weight: 600;
+}
+
+/* Highlight row on hover / keyboard focus where supported (e.g. Firefox) */
+.studio-field-status-select option:hover,
+.studio-field-status-select option:focus,
+.studio-field-status-select option:checked:hover,
+.studio-field-status-select option:checked:focus {
+    background-color: rgb(37 99 235);
+    color: #fff;
+}
+
+/* Empty table: no search / filter results */
+@keyframes studio-empty-shell-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes studio-empty-shell-border {
+    0%,
+    100% {
+        border-color: rgb(212 212 216 / 0.65);
+    }
+
+    50% {
+        border-color: rgb(186 186 194 / 0.95);
+    }
+}
+
+@keyframes studio-empty-shell-dots {
+    0% {
+        background-position:
+            0 0,
+            0 0;
+    }
+
+    100% {
+        background-position:
+            0 0,
+            18px 18px;
+    }
+}
+
+@keyframes studio-empty-breathe {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes studio-empty-svg-in {
+    from {
+        opacity: 0;
+        transform: scale(0.88);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes studio-empty-ring-dash {
+    to {
+        stroke-dashoffset: -48;
+    }
+}
+
+@keyframes studio-empty-text-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.studio-empty-state {
+    max-width: 26rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2.5rem 1.5rem 2.75rem;
+    text-align: center;
+    border-radius: 1.25rem;
+    border: 1px dashed rgb(212 212 216 / 0.85);
+    background-color: rgb(250 250 250);
+    background-image:
+        radial-gradient(ellipse 100% 85% at 50% -25%, rgb(255 255 255 / 0.98) 0%, transparent 50%),
+        radial-gradient(circle at 1px 1px, rgb(228 228 231 / 0.5) 1px, transparent 0);
+    background-size: auto, 18px 18px;
+    box-shadow:
+        inset 0 1px 0 0 rgb(255 255 255 / 0.85),
+        0 1px 2px 0 rgb(0 0 0 / 0.04);
+    animation:
+        studio-empty-shell-in 0.52s cubic-bezier(0.22, 1, 0.36, 1) 0s 1 normal both,
+        studio-empty-shell-border 5.5s ease-in-out 0.55s infinite normal none,
+        studio-empty-shell-dots 22s linear 0s infinite normal none;
+}
+
+@media (min-width: 640px) {
+    .studio-empty-state {
+        padding: 3rem 2rem 3.25rem;
+    }
+}
+
+.studio-empty-state__icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.studio-empty-state__icon-breathe {
+    display: flex;
+    justify-content: center;
+    animation: studio-empty-breathe 3.25s ease-in-out 0.4s infinite;
+}
+
+.studio-empty-state__icon-breathe svg {
+    display: block;
+    animation: studio-empty-svg-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+.studio-empty-state__icon-breathe svg circle {
+    animation: studio-empty-ring-dash 11s linear 0.3s infinite;
+}
+
+.studio-empty-state__title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: rgb(23 23 23);
+    animation: studio-empty-text-in 0.48s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.studio-empty-state__desc {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: rgb(82 82 82);
+    animation: studio-empty-text-in 0.48s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+}
+
+.studio-empty-state__hint {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: rgb(163 163 163);
+    animation: studio-empty-text-in 0.48s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .studio-empty-state,
+    .studio-empty-state__icon-breathe,
+    .studio-empty-state__icon-breathe svg,
+    .studio-empty-state__icon-breathe svg circle,
+    .studio-empty-state__title,
+    .studio-empty-state__desc,
+    .studio-empty-state__hint {
+        animation: none !important;
+    }
+}
+
+/* Delete confirmation modal */
+@keyframes studio-delete-backdrop-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes studio-delete-backdrop-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes studio-delete-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes studio-delete-panel-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(10px) scale(0.96);
+    }
+}
+
+@keyframes studio-delete-icon-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.55);
+    }
+
+    65% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes studio-delete-icon-ring {
+    0%,
+    100% {
+        box-shadow: 0 0 0 8px rgba(254, 226, 226, 0.55);
+    }
+
+    50% {
+        box-shadow: 0 0 0 12px rgba(254, 202, 202, 0.75);
+    }
+}
+
+.studio-delete-modal--open .studio-delete-modal__backdrop {
+    animation: studio-delete-backdrop-in 0.28s ease-out both;
+}
+
+.studio-delete-modal--open .studio-delete-modal__panel {
+    animation: studio-delete-panel-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.studio-delete-modal--open .studio-delete-modal__icon {
+    animation:
+        studio-delete-icon-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both,
+        studio-delete-icon-ring 2.8s ease-in-out 0.55s infinite;
+}
+
+.studio-delete-modal--open .studio-delete-modal__title {
+    animation: studio-empty-text-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+
+.studio-delete-modal--open .studio-delete-modal__subtitle {
+    animation: studio-empty-text-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+}
+
+.studio-delete-modal--open .studio-delete-modal__actions {
+    animation: studio-empty-text-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.studio-delete-modal--closing .studio-delete-modal__backdrop {
+    animation: studio-delete-backdrop-out 0.22s ease-in both;
+}
+
+.studio-delete-modal--closing .studio-delete-modal__panel {
+    animation: studio-delete-panel-out 0.22s ease-in both;
+}
+
+.studio-delete-modal--closing .studio-delete-modal__icon,
+.studio-delete-modal--closing .studio-delete-modal__title,
+.studio-delete-modal--closing .studio-delete-modal__subtitle,
+.studio-delete-modal--closing .studio-delete-modal__actions {
+    animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .studio-delete-modal--open .studio-delete-modal__backdrop,
+    .studio-delete-modal--open .studio-delete-modal__panel,
+    .studio-delete-modal--open .studio-delete-modal__icon,
+    .studio-delete-modal--open .studio-delete-modal__title,
+    .studio-delete-modal--open .studio-delete-modal__subtitle,
+    .studio-delete-modal--open .studio-delete-modal__actions,
+    .studio-delete-modal--closing .studio-delete-modal__backdrop,
+    .studio-delete-modal--closing .studio-delete-modal__panel {
+        animation: none !important;
+    }
+}
+
+.studio-crud-table tbody tr.studio-crud-empty-row:hover {
+    background-color: transparent;
+}
+
+/* Toolbar: Filter / Add — filter mode accent + clearer Add icon tile */
+#studio-filter[data-studio-filter='active'] {
+    border-color: rgb(167 243 208 / 0.95);
+    box-shadow:
+        0 2px 12px -5px rgb(16 185 129 / 0.2),
+        0 1px 3px -1px rgb(0 0 0 / 0.06),
+        0 0 0 1px rgb(16 185 129 / 0.12);
+}
+
+#studio-filter[data-studio-filter='active'] .studio-filter-icon-wrap {
+    background-color: rgb(209 250 229 / 0.95);
+    color: rgb(6 95 70);
+    --tw-ring-color: rgb(167 243 208 / 0.85);
+}
+
+#studio-filter[data-studio-filter='inactive'] {
+    border-color: rgb(254 202 202 / 0.85);
+    box-shadow:
+        0 2px 12px -5px rgb(248 113 113 / 0.18),
+        0 1px 3px -1px rgb(0 0 0 / 0.06),
+        0 0 0 1px rgb(248 113 113 / 0.12);
+}
+
+#studio-filter[data-studio-filter='inactive'] .studio-filter-icon-wrap {
+    background-color: rgb(254 226 226 / 0.95);
+    color: rgb(185 28 28);
+    --tw-ring-color: rgb(254 202 202 / 0.9);
+}
+
+/* Products table: stacked labeled rows on small screens (phone), unchanged on md+ */
+@media (max-width: 767px) {
+    .studio-crud-scroll {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .studio-crud-table thead {
+        display: none;
+    }
+
+    .studio-crud-table tbody {
+        display: block;
+    }
+
+    .studio-crud-table tbody > :not([hidden]) ~ :not([hidden]) {
+        border-top-width: 0;
+    }
+
+    .studio-crud-table tbody tr {
+        display: block;
+        margin-bottom: 0.75rem;
+        overflow: hidden;
+        border-radius: 1rem;
+        border: 1px solid rgb(245 245 245);
+        background-color: #fff;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+
+    .studio-crud-table tbody tr:last-child {
+        margin-bottom: 0;
+    }
+
+    .studio-crud-table tbody tr:has(.studio-crud-empty) {
+        margin-bottom: 0;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .studio-crud-table tbody tr.studio-crud-empty-row {
+        background: transparent;
+    }
+
+    .studio-crud-table tbody td.studio-crud-empty {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 0.5rem 1rem;
+        text-align: center;
+        border-bottom: none;
+    }
+
+    .studio-crud-table tbody td.studio-crud-empty .studio-empty-state {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .studio-crud-table tbody td.studio-crud-empty::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    .studio-crud-table tbody td:not(.studio-crud-empty) {
+        display: grid;
+        grid-template-columns: minmax(0, 5.5rem) minmax(0, 1fr);
+        gap: 0.5rem 0.75rem;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        white-space: normal;
+        border-bottom: 1px solid rgb(245 245 245);
+    }
+
+    .studio-crud-table tbody td:not(.studio-crud-empty):last-child {
+        border-bottom: none;
+    }
+
+    .studio-crud-table tbody td:not(.studio-crud-empty)::before {
+        content: attr(data-label);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: rgb(115 115 115);
+        line-height: 1.3;
+    }
+
+    .studio-crud-table tbody td[data-label='Actions'] > div {
+        justify-self: stretch;
+        width: 100%;
+    }
+
+    .studio-crud-mo-cell--end {
+        justify-self: end;
+        text-align: right;
+    }
+
+    .studio-crud-mo-cell--start {
+        justify-self: start;
+        text-align: left;
+    }
+
+    .studio-crud-mo-cell--img {
+        justify-self: center;
+    }
+}
+
+@keyframes studio-toast-in {
+    from {
+        transform: translateX(110%) scale(0.96);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes studio-toast-out {
+    from {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(110%) scale(0.96);
+        opacity: 0;
+    }
+}
+
+.studio-toast {
+    animation: studio-toast-in 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    backdrop-filter: blur(8px);
+}
+
+.studio-toast--out {
+    animation: studio-toast-out 200ms ease-in forwards;
+}
+
+.studio-toast__close {
+    color: inherit;
+    opacity: 0.55;
+}
+
+.studio-toast__close:hover {
+    opacity: 1;
+    background-color: rgb(0 0 0 / 0.06);
+}
+
+.studio-toast--success {
+    border-color: rgb(167 243 208 / 0.95);
+    background: linear-gradient(135deg, rgb(236 253 245) 0%, rgb(255 255 255) 100%);
+    color: rgb(6 78 59);
+    box-shadow:
+        0 0 0 1px rgb(16 185 129 / 0.08),
+        0 12px 32px -12px rgb(16 185 129 / 0.28);
+}
+
+.studio-toast--success .studio-toast__icon {
+    background: rgb(209 250 229);
+    color: rgb(5 150 105);
+}
+
+.studio-toast--error,
+.studio-toast--delete {
+    border-color: rgb(254 202 202 / 0.95);
+    background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(255 255 255) 100%);
+    color: rgb(127 29 29);
+    box-shadow:
+        0 0 0 1px rgb(239 68 68 / 0.08),
+        0 12px 32px -12px rgb(239 68 68 / 0.22);
+}
+
+.studio-toast--error .studio-toast__icon,
+.studio-toast--delete .studio-toast__icon {
+    background: rgb(254 226 226);
+    color: rgb(220 38 38);
+}
+
+.studio-toast--info {
+    border-color: rgb(186 230 253 / 0.95);
+    background: linear-gradient(135deg, rgb(240 249 255) 0%, rgb(255 255 255) 100%);
+    color: rgb(12 74 110);
+    box-shadow:
+        0 0 0 1px rgb(14 165 233 / 0.08),
+        0 12px 32px -12px rgb(14 165 233 / 0.2);
+}
+
+.studio-toast--info .studio-toast__icon {
+    background: rgb(224 242 254);
+    color: rgb(2 132 199);
+}
+
+.studio-toast--filter-active {
+    border-color: rgb(167 243 208 / 0.95);
+    background: linear-gradient(135deg, rgb(236 253 245) 0%, rgb(255 255 255) 100%);
+    color: rgb(6 95 70);
+    box-shadow:
+        0 0 0 1px rgb(16 185 129 / 0.1),
+        0 12px 32px -12px rgb(16 185 129 / 0.22);
+}
+
+.studio-toast--filter-active .studio-toast__icon {
+    background: rgb(209 250 229);
+    color: rgb(5 150 105);
+}
+
+.studio-toast--filter-inactive {
+    border-color: rgb(254 202 202 / 0.95);
+    background: linear-gradient(135deg, rgb(254 242 242) 0%, rgb(255 255 255) 100%);
+    color: rgb(127 29 29);
+    box-shadow:
+        0 0 0 1px rgb(239 68 68 / 0.1),
+        0 12px 32px -12px rgb(239 68 68 / 0.18);
+}
+
+.studio-toast--filter-inactive .studio-toast__icon {
+    background: rgb(254 226 226);
+    color: rgb(220 38 38);
+}
+
+.studio-toast--filter-all {
+    border-color: rgb(212 212 216 / 0.95);
+    background: linear-gradient(135deg, rgb(250 250 250) 0%, rgb(255 255 255) 100%);
+    color: rgb(38 38 38);
+    box-shadow:
+        0 0 0 1px rgb(0 0 0 / 0.04),
+        0 12px 32px -12px rgb(15 23 42 / 0.14);
+}
+
+.studio-toast--filter-all .studio-toast__icon {
+    background: rgb(244 244 245);
+    color: rgb(82 82 91);
+}
