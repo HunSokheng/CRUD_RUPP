@@ -5,8 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \App\Models\Hairstyle */
-class HairstyleResource extends JsonResource
+/** @mixin \App\Models\Product */
+class ProductResource extends JsonResource
 {
     /**
      * @return array<string, mixed>

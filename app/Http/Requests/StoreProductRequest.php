@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateHairstyleRequest extends FormRequest
+class StoreProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -17,11 +17,11 @@ class UpdateHairstyleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['sometimes', 'required', 'string', 'max:64'],
-            'image_url' => ['sometimes', 'nullable', 'string', 'max:2048'],
-            'price' => ['sometimes', 'required', 'numeric', 'min:0'],
-            'status' => ['sometimes', 'required', 'string', 'in:active,inactive'],
-            'quantity' => ['sometimes', 'required', 'integer', 'min:0', 'max:999999'],
+            'name' => ['required', 'string', 'max:64'],
+            'image_url' => ['nullable', 'string', 'max:2048'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'status' => ['required', 'string', 'in:active,inactive'],
+            'quantity' => ['required', 'integer', 'min:0', 'max:999999'],
             'fit_score' => ['sometimes', 'integer', 'min:0', 'max:100'],
             'accent' => ['sometimes', 'string', 'in:slate,amber,rose,emerald,violet,zinc'],
         ];
@@ -29,10 +29,6 @@ class UpdateHairstyleRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        if (!$this->exists('image_url')) {
-            return;
-        }
-
         $img = $this->input('image_url');
         $normalizedImg = null;
         if (is_string($img) && trim($img) !== '') {
@@ -40,6 +36,8 @@ class UpdateHairstyleRequest extends FormRequest
         }
 
         $this->merge([
+            'fit_score' => $this->input('fit_score', 50),
+            'accent' => $this->input('accent', 'zinc'),
             'image_url' => $normalizedImg,
         ]);
     }

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('hairstyles', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             $table->decimal('price', 10, 2)->default(0)->after('accent');
             $table->string('status', 32)->default('active')->after('price');
             $table->unsignedInteger('quantity')->default(0)->after('status');
@@ -17,7 +17,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('hairstyles', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $table) {
             $table->dropColumn(['price', 'status', 'quantity']);
         });
     }
