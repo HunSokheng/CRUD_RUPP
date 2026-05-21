@@ -337,8 +337,8 @@
     <script type="application/json" id="studio-bootstrap">
         {!! json_encode([
             'portraitUrl' => $portraitUrl,
-            'hairstyles' => $hairstyles,
-            'apiBase' => url('/api/hairstyles'),
+            'products' => $products,
+            'apiBase' => '/api/products',
         ], JSON_THROW_ON_ERROR | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!}
     </script>
 </body>

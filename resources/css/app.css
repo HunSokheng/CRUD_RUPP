@@ -9,24 +9,58 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
     --font-khmer: 'Noto Sans Khmer', ui-sans-serif, system-ui, sans-serif;
+
+    --animate-studio-header-bg: studio-header-bg-shift 18s ease-in-out infinite;
+    --animate-studio-header-stripes: studio-header-stripes 22s linear infinite;
+    --animate-studio-header-shine: studio-header-shine 10s ease-in-out infinite;
+}
+
+@keyframes studio-header-bg-shift {
+    0%,
+    100% {
+        background-position: 0 0, 0% 50%;
+    }
+
+    50% {
+        background-position: 0 0, 100% 50%;
+    }
+}
+
+@keyframes studio-header-stripes {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 37px 37px;
+    }
+}
+
+@keyframes studio-header-shine {
+    0%,
+    100% {
+        background-position: 200% 0;
+    }
+
+    50% {
+        background-position: -120% 0;
+    }
 }
 
 /* RUPP-style site header */
 .studio-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    overflow: hidden;
-    background:
-        linear-gradient(180deg, rgb(0 74 42 / 0.35) 0%, transparent 42%),
-        linear-gradient(90deg, rgb(0 42 24) 0%, rgb(0 58 33) 12%, rgb(0 68 38) 50%, rgb(0 58 33) 88%, rgb(0 42 24) 100%);
     box-shadow: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 4px 24px rgb(0 0 0 / 0.22);
 }
 
-.studio-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+.studio-header__bg--base {
+    background:
+        linear-gradient(180deg, rgb(0 74 42 / 0.35) 0%, transparent 42%),
+        linear-gradient(90deg, rgb(0 42 24) 0%, rgb(0 58 33) 12%, rgb(0 68 38) 50%, rgb(0 58 33) 88%, rgb(0 42 24) 100%);
+    background-size: 100% 100%, 220% 100%;
+    background-position: 0 0, 0% 50%;
+}
+
+.studio-header__bg--stripes {
     background: repeating-linear-gradient(
         105deg,
         transparent,
@@ -34,12 +68,23 @@
         rgb(255 255 255 / 0.018) 18px,
         rgb(255 255 255 / 0.018) 19px
     );
-    pointer-events: none;
+    background-size: 37px 37px;
 }
 
-.studio-header__inner {
-    position: relative;
-    z-index: 1;
+.studio-header__bg--shine {
+    background: linear-gradient(
+        105deg,
+        transparent 0%,
+        transparent 38%,
+        rgb(212 175 55 / 0.07) 48%,
+        rgb(255 255 255 / 0.06) 50%,
+        rgb(212 175 55 / 0.07) 52%,
+        transparent 62%,
+        transparent 100%
+    );
+    background-size: 280% 100%;
+    background-position: 200% 0;
+    opacity: 0.9;
 }
 
 .studio-header__brand {

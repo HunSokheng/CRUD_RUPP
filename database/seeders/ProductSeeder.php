@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Hairstyle;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
-class HairstyleSeeder extends Seeder
+class ProductSeeder extends Seeder
 {
     public function run(): void
     {
@@ -35,7 +35,7 @@ class HairstyleSeeder extends Seeder
         ];
 
         foreach ($rows as $row) {
-            Hairstyle::query()->updateOrCreate(
+            Product::query()->updateOrCreate(
                 ['name' => $row['name']],
                 $row
             );

@@ -61,7 +61,7 @@ async function readApiErrorMessage(res) {
 function readBootstrap() {
     const el = document.getElementById('studio-bootstrap');
     if (!el) {
-        return { portraitUrl: '', hairstyles: [], apiBase: '/api/hairstyles' };
+        return { portraitUrl: '', products: [], apiBase: '/api/products' };
     }
 
     return JSON.parse(el.textContent);
@@ -439,7 +439,7 @@ function updateFilterButton() {
     }
 }
 
-async function fetchHairstyles(apiBase) {
+async function fetchProducts(apiBase) {
     const res = await fetch(apiBase, { headers: { Accept: 'application/json' } });
     if (!res.ok) {
         throw new Error('Load failed');
@@ -450,7 +450,7 @@ async function fetchHairstyles(apiBase) {
     return Array.isArray(data.data) ? data.data : data;
 }
 
-async function fetchHairstyle(apiBase, id) {
+async function fetchProduct(apiBase, id) {
     const res = await fetch(`${apiBase}/${id}`, { headers: { Accept: 'application/json' } });
     if (!res.ok) {
         throw new Error('Item load failed');
@@ -642,7 +642,7 @@ function renderDetailPanel(row) {
 async function openDetail(id) {
     const apiBase = studioState.apiBase;
     try {
-        const row = await fetchHairstyle(apiBase, id);
+        const row = await fetchProduct(apiBase, id);
         studioState.detailRow = row;
         renderDetailPanel(row);
         setDetailOpen(true);
@@ -652,7 +652,7 @@ async function openDetail(id) {
     }
 
     try {
-        const rows = studioState.rows.length ? studioState.rows : await fetchHairstyles(apiBase);
+        const rows = studioState.rows.length ? studioState.rows : await fetchProducts(apiBase);
         const fallback = rows.find((r) => String(r.id) === String(id));
         if (!fallback) {
             toast('error', 'Could not load this product.');
@@ -893,7 +893,7 @@ function renderCrud(allRows, apiBase) {
 }
 
 async function refresh(apiBase) {
-    const rows = await fetchHairstyles(apiBase);
+    const rows = await fetchProducts(apiBase);
     studioState.rows = rows;
     renderStats(rows);
     renderCrud(rows, apiBase);
@@ -1100,7 +1100,7 @@ function wireModal(apiBase) {
 
         if (studioState.detailRow && editId && String(studioState.detailRow.id) === editId) {
             try {
-                const fresh = await fetchHairstyle(apiBase, editId);
+                const fresh = await fetchProduct(apiBase, editId);
                 studioState.detailRow = fresh;
                 renderDetailPanel(fresh);
             } catch {
@@ -1271,7 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const boot = readBootstrap();
     const apiBase = boot.apiBase.replace(/\/$/, '');
     studioState.apiBase = apiBase;
-    const initial = Array.isArray(boot.hairstyles) ? boot.hairstyles : [];
+    const initial = Array.isArray(boot.products) ? boot.products : [];
 
     studioState.rows = initial;
     studioState.search = '';

@@ -1,5 +1,18 @@
-<header class="studio-header">
-    <div class="studio-header__inner mx-auto flex max-w-[100rem] items-center justify-between gap-4 px-4 py-2.5 sm:px-6 sm:py-3 lg:px-10">
+<header class="studio-header relative sticky top-0 z-50 overflow-hidden">
+    <div
+        class="studio-header__bg--base pointer-events-none absolute inset-0 motion-safe:animate-studio-header-bg motion-reduce:animate-none"
+        aria-hidden="true"
+    ></div>
+    <div
+        class="studio-header__bg--stripes pointer-events-none absolute inset-0 motion-safe:animate-studio-header-stripes motion-reduce:animate-none"
+        aria-hidden="true"
+    ></div>
+    <div
+        class="studio-header__bg--shine pointer-events-none absolute inset-0 motion-safe:animate-studio-header-shine motion-reduce:animate-none"
+        aria-hidden="true"
+    ></div>
+
+    <div class="studio-header__inner relative z-10 mx-auto flex max-w-[100rem] items-center justify-between gap-4 px-4 py-2.5 sm:px-6 sm:py-3 lg:px-10">
         <a href="/" class="studio-header__brand flex min-w-0 items-center gap-3 sm:gap-4">
             <span class="studio-header__logo shrink-0">
                 <img

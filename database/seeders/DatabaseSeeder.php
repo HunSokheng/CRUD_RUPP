@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(HairstyleSeeder::class);
+        $this->call(ProductSeeder::class);
 
         User::factory()->create([
             'name' => 'Test User',
